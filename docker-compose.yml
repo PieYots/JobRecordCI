@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: laravel_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel_db
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306" # Map port 3307 on your local to port 3306 in the container
+    volumes:
+      - mysql_data:/var/lib/mysql # Persist database data
+
+networks:
+  laravel_network:
+
+
+volumes:
+  mysql_data:
