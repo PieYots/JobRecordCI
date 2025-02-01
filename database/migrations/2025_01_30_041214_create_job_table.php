@@ -12,11 +12,11 @@ return new class extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('job_name');
-            $table->unsignedBigInteger('machine_id');
+            $table->unsignedBigInteger('machine_id')->nullable();
             $table->timestamps();
 
             // Foreign key constraint
-            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('RESTRICT');
+            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('SET NULL');
         });
     }
 
