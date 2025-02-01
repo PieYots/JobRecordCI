@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign key constraint
-            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
+            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('RESTRICT');
         });
     }
 
