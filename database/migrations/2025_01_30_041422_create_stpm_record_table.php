@@ -23,11 +23,11 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign key constraints
-            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
-            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
-            $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');
-            $table->foreign('e_training_id')->references('id')->on('e_trainings')->onDelete('cascade');
-            $table->foreign('record_by')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('RESTRICT');
+            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('RESTRICT');
+            $table->foreign('job_id')->references('id')->on('jobs')->onDelete('RESTRICT');
+            $table->foreign('e_training_id')->references('id')->on('e_trainings')->onDelete('RESTRICT');
+            $table->foreign('record_by')->references('id')->on('employees')->onDelete('RESTRICT');
         });
     }
 

@@ -25,8 +25,8 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign key constraint
-            $table->foreign('e_training_id')->references('id')->on('e_trainings')->onDelete('cascade');
-            $table->foreign('record_by')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('e_training_id')->references('id')->on('e_trainings')->onDelete('RESTRICT');
+            $table->foreign('record_by')->references('id')->on('employees')->onDelete('RESTRICT');
         });
     }
 
