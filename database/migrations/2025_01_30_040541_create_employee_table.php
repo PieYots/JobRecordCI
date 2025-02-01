@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('employee_name');
             $table->string('email');
             $table->string('department');
-            $table->unsignedBigInteger('team_id');
+            $table->unsignedBigInteger('team_id')->nullable();
             $table->timestamps();
 
             // Foreign key constraint
-            $table->foreign('team_id')->references('id')->on('teams')->onDelete('RESTRICT');
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('SET NULL');
         });
     }
 

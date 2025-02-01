@@ -19,14 +19,14 @@ return new class extends Migration
             $table->string('file_ref');
             $table->enum('rating', ['excellent', 'good', 'average', 'poor']);  // Add more ratings if needed
             $table->string('additional_learning');
-            $table->unsignedBigInteger('e_training_id');
+            $table->unsignedBigInteger('e_training_id')->nullable();
             $table->timestamp('create_at');
-            $table->unsignedBigInteger('record_by');
+            $table->unsignedBigInteger('record_by')->nullable();
             $table->timestamps();
 
             // Foreign key constraint
-            $table->foreign('e_training_id')->references('id')->on('e_trainings')->onDelete('RESTRICT');
-            $table->foreign('record_by')->references('id')->on('employees')->onDelete('RESTRICT');
+            $table->foreign('e_training_id')->references('id')->on('e_trainings')->onDelete('SET NULL');
+            $table->foreign('record_by')->references('id')->on('employees')->onDelete('SET NULL');
         });
     }
 
