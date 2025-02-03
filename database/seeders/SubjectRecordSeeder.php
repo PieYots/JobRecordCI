@@ -14,6 +14,7 @@ class SubjectRecordSeeder extends Seeder
             'id' => 1, // Ensure this ID exists, or adjust accordingly
             'course_name' => 'Basic Programming', // Change to your desired course name
         ]);
+
         DB::table('subject_records')->insert([
             [
                 'topic' => 'Introduction to JavaScript',
