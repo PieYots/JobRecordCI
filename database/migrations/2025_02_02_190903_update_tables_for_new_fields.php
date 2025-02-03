@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration {
     public function up(): void
@@ -15,7 +16,6 @@ return new class extends Migration {
         Schema::table('subject_records', function (Blueprint $table) {
             $table->dateTime('startdate')->nullable();
             $table->dateTime('enddate')->nullable();
-            $table->integer('rating')->change(); // Change rating from ENUM to integer
         });
 
         Schema::create('e_training_user', function (Blueprint $table) {
@@ -34,7 +34,6 @@ return new class extends Migration {
 
         Schema::table('subject_records', function (Blueprint $table) {
             $table->dropColumn(['startdate', 'enddate']);
-            // Revert rating change if necessary (manually update based on your original ENUM values)
         });
 
         Schema::dropIfExists('e_training_user');
