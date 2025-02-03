@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('process');
             $table->string('result');
             $table->string('file_ref');
-            $table->enum('rating', ['excellent', 'good', 'average', 'poor']);  // Add more ratings if needed
+            $table->integer('rating');  // Add more ratings if needed
             $table->string('additional_learning');
             $table->unsignedBigInteger('e_training_id')->nullable();
             $table->timestamp('create_at');
