@@ -18,7 +18,9 @@ class StpmRecord extends Model
         'e_training_id',
         'create_at',
         'record_by',
-        'progress'
+        'progress',
+        'start_date',
+        'end_date',
     ];
 
     // Relationships
@@ -42,7 +44,7 @@ class StpmRecord extends Model
         return $this->belongsTo(ETraining::class);
     }
 
-    public function employee()
+    public function recordedBy()
     {
         return $this->belongsTo(Employee::class, 'record_by');
     }

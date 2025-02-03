@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\MachineController;
 use App\Http\Controllers\Api\JobController;
 use App\Http\Controllers\Api\ETrainingController;
 use App\Http\Controllers\Api\StpmRecordController;
+use App\Http\Controllers\Api\SubjectRecordController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -31,6 +32,10 @@ Route::get('/teams', [TeamController::class, 'index']);
 Route::get('/machines', [MachineController::class, 'index']);
 Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/e-trainings', [ETrainingController::class, 'index']);
+Route::get('/etrainings/user/{userId}', [ETrainingController::class, 'getByUserId']);
 Route::get('/stpm-records', [StpmRecordController::class, 'index']);
 Route::get('/stpm-records/{id}', [StpmRecordController::class, 'show']);
 Route::post('/stpm-records', [StpmRecordController::class, 'store']);
+Route::get('/subject-records', [SubjectRecordController::class, 'index']);
+Route::get('/subject-records/{id}', [SubjectRecordController::class, 'show']);
+Route::post('/subject-records', [SubjectRecordController::class, 'store']);
