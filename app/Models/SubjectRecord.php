@@ -10,7 +10,7 @@ class SubjectRecord extends Model
 
     protected $fillable = [
         'topic',
-        'type',
+        'course_type_id',
         'reference',
         'process',
         'result',
@@ -19,7 +19,9 @@ class SubjectRecord extends Model
         'additional_learning',
         'e_training_id',
         'create_at',
-        'record_by'
+        'record_by',
+        'start_date',
+        'end_date'
     ];
 
     // Relationships
@@ -28,8 +30,13 @@ class SubjectRecord extends Model
         return $this->belongsTo(ETraining::class);
     }
 
-    public function employee()
+    public function recordBy()
     {
         return $this->belongsTo(Employee::class, 'record_by');
+    }
+
+    public function courseType()
+    {
+        return $this->belongsTo(CourseType::class, 'course_type_id');
     }
 }

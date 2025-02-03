@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Model
 {
     protected $table = 'users';
 
     protected $fillable = [
-        'azure_ad_object_id', 
-        'employee_id', 
-        'username', 
-        'role_id', 
+        'azure_ad_object_id',
+        'employee_id',
+        'username',
+        'role_id',
         'status'
     ];
 
@@ -30,5 +31,10 @@ class User extends Model
     public function tokens()
     {
         return $this->hasMany(Token::class);
+    }
+
+    public function eTrainings(): BelongsToMany
+    {
+        return $this->belongsToMany(ETraining::class, 'e_training_user', 'user_id', 'e_training_id');
     }
 }

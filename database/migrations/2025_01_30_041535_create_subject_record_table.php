@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('subject_records', function (Blueprint $table) {
             $table->id();
             $table->string('topic');
-            $table->enum('type', ['type1', 'type2', 'type3']);  // Replace 'type1', etc. with real types
+            $table->string('type');  // Replace 'type1', etc. with real types
             $table->string('reference');
             $table->string('process');
             $table->string('result');
