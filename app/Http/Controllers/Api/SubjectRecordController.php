@@ -12,18 +12,18 @@ class SubjectRecordController extends Controller
     {
         // Validate incoming request
         $validatedData = $request->validate([
-            'topic' => 'required|string',
-            'course_type_id' => 'required|exists:course_types,id', // Foreign key constraint
-            'reference' => 'required|string',
-            'process' => 'required|string',
-            'result' => 'required|string',
+            'topic' => 'nullable|string',
+            'course_type_id' => 'nullable|exists:course_types,id', // Foreign key constraint
+            'reference' => 'nullable|string',
+            'process' => 'nullable|string',
+            'result' => 'nullable|string',
             'file_ref' => 'nullable|file',
-            'rating' => 'required|integer|between:1,4', // Rating as integer
+            'rating' => 'nullable|integer|between:1,4', // Rating as integer
             'additional_learning' => 'nullable|string',
-            'e_training_id' => 'required|exists:e_trainings,id',
-            'record_by' => 'required|exists:employees,id',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
+            'e_training_id' => 'nullable|exists:e_trainings,id',
+            'record_by' => 'nullable|exists:employees,id',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
 
         // Handle file upload if present
