@@ -18,19 +18,19 @@ class StpmRecordController extends Controller
 
         // Validate incoming request
         $validatedData = $request->validate([
-            'team_id' => 'required|exists:teams,id',
+            'team_id' => 'nullable|exists:teams,id',
             'is_team' => 'required|boolean',
-            'machine_id' => 'required|exists:machines,id',
-            'job_id' => 'required|exists:jobs,id',
+            'machine_id' => 'nullable|exists:machines,id',
+            'job_id' => 'nullable|exists:jobs,id',
             'file_ref' => 'nullable|file',
             'is_finish' => 'required|boolean',
-            'e_training_id' => 'required|exists:e_trainings,id',
-            'record_by' => 'required|exists:employees,id',
-            'employees' => 'required|array', // List of employee IDs
-            'employees.*' => 'exists:employees,id', // Ensure all employees exist
+            'e_training_id' => 'nullable|exists:e_trainings,id',
+            'record_by' => 'nullable|exists:employees,id',
+            'employees' => 'nullable|array', // List of employee IDs
+            'employees.*' => 'nullable|exists:employees,id', // Ensure all employees exist
             'progress' => 'nullable|integer|between:0,100', // Add validation for progress
-            'start_date' => 'required|date', // Validate startdate
-            'end_date' => 'required|date|after_or_equal:startdate',
+            'start_date' => 'nullable|date', // Validate startdate
+            'end_date' => 'nullable|date|after_or_equal:startdate',
         ]);
 
         // Handle file upload if present
