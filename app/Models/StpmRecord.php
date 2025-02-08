@@ -16,11 +16,13 @@ class StpmRecord extends Model
         'file_ref',
         'is_finish',
         'e_training_id',
-        'create_at',
-        'record_by',
+        'recorded_by',
         'progress',
         'start_date',
         'end_date',
+        'status',
+        'created_at',
+        'updated_at',
     ];
 
     // Relationships
@@ -46,7 +48,7 @@ class StpmRecord extends Model
 
     public function recordedBy()
     {
-        return $this->belongsTo(Employee::class, 'record_by');
+        return $this->belongsTo(Employee::class, 'recorded_by');
     }
 
     public function employees()

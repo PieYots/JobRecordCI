@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('username'); // Username column
             $table->foreignId('role_id')->nullable()->constrained('roles')->onDelete('SET NULL'); // Role reference column
             $table->enum('status', ['active', 'inactive', 'suspended']); // Enum for status
-            $table->timestamps(); // created_at and updated_at columns
         });
     }
 
