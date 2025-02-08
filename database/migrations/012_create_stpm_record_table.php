@@ -15,19 +15,25 @@ return new class extends Migration
             $table->boolean('is_team');
             $table->unsignedBigInteger('machine_id')->nullable();
             $table->unsignedBigInteger('job_id')->nullable();
-            $table->string('file_ref');
+            $table->string('file_ref')->nullable();
             $table->boolean('is_finish');
+            $table->integer('progress')->default(0);
+            $table->unsignedBigInteger('ojt_record_id')->nullable();
             $table->unsignedBigInteger('e_training_id')->nullable();
-            $table->timestamp('create_at');
-            $table->unsignedBigInteger('record_by')->nullable();
-            $table->timestamps();
+            $table->unsignedBigInteger('recorded_by')->nullable();
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
+            $table->enum('status', ['waiting', 'pass', 'fail'])->default('waiting');
+            $table->timestamp('created_at');
+            $table->timestamp('updated_at');
 
             // Foreign key constraints
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('SET NULL');
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('SET NULL');
             $table->foreign('job_id')->references('id')->on('jobs')->onDelete('SET NULL');
             $table->foreign('e_training_id')->references('id')->on('e_trainings')->onDelete('SET NULL');
-            $table->foreign('record_by')->references('id')->on('employees')->onDelete('SET NULL');
+            $table->foreign('recorded_by')->references('id')->on('employees')->onDelete('SET NULL');
+            $table->foreign('ojt_record_id')->references('id')->on('ojt_records')->onDelete('SET NULL');
         });
     }
 

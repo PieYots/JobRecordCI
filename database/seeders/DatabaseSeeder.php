@@ -16,8 +16,7 @@ class DatabaseSeeder extends Seeder
             MachineSeeder::class,
             JobSeeder::class,
             ETrainingSeeder::class,
-            StpmRecordSeeder::class,
-            SubjectRecordSeeder::class,
+            CourseTypeSeeder::class
         ]);
     }
 }

@@ -16,7 +16,6 @@ class UsersSeeder extends Seeder
                 'username' => 'john.doe',
                 'role_id' => 1, // Admin role
                 'status' => 'active',
-                'created_at' => now(),
             ],
             [
                 'azure_ad_object_id' => 'B12345',
@@ -24,7 +23,6 @@ class UsersSeeder extends Seeder
                 'username' => 'jane.smith',
                 'role_id' => 2, // User role
                 'status' => 'inactive',
-                'created_at' => now(),
             ],
         ]);
     }

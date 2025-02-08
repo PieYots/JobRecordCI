@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\StpmRecord;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StpmRecordController extends Controller
 {
@@ -24,6 +25,7 @@ class StpmRecordController extends Controller
             'job_id' => 'nullable|exists:jobs,id',
             'file_ref' => 'nullable|file',
             'is_finish' => 'required|boolean',
+            'ojt_record_id' => 'nullable|exists:ojt_records,id',
             'e_training_id' => 'nullable|exists:e_trainings,id',
             'record_by' => 'nullable|exists:employees,id',
             'employees' => 'nullable|array', // List of employee IDs
@@ -53,13 +55,13 @@ class StpmRecordController extends Controller
             'job_id' => $validatedData['job_id'],
             'file_ref' => $filePath ? 'storage/' . $filePath : null,
             'is_finish' => $isFinish,
+            'ojt_record_id' => $validatedData['ojt_record_id'],
             'e_training_id' => $validatedData['e_training_id'],
-            'record_by' => $validatedData['record_by'],
+            'recorded_by' => $validatedData['record_by'],
             'progress' => $progress,
             'start_date' => $validatedData['start_date'], // Store startdate
             'end_date' => $validatedData['end_date'], // Store enddate
-            'create_at' => now(), // Manually setting the created_at timestamp
-            'updated_at' => now(), // You may set this too if you want
+            'created_at' => now(), // Manually setting the created_at timestamp
         ]);
 
 
@@ -98,5 +100,29 @@ class StpmRecordController extends Controller
             'message' => 'STPM Record fetched successfully!',
             'data' => $stpmRecord
         ]);
+    }
+
+    public function destroy($id)
+    {
+        $stpmRecord = StpmRecord::find($id);
+
+        if (!$stpmRecord) {
+            return response()->json([
+                'message' => 'STPM Record not found',
+            ], 404);
+        }
+
+        if ($stpmRecord->file_ref) {
+            // Delete the file from public storage
+            Storage::disk('public')->delete(str_replace('storage/', '', $stpmRecord->file_ref));
+        }
+
+        // Delete the STPM Record, which will also delete entries in the pivot table (many-to-many)
+        $stpmRecord->employees()->detach(); // Detach employees before deletion
+        $stpmRecord->delete();
+
+        return response()->json([
+            'message' => 'STPM Record deleted successfully',
+        ], 200);
     }
 }

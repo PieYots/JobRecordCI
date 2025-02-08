@@ -8,15 +8,6 @@ use Illuminate\Support\Facades\DB;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::table('stpm_records', function (Blueprint $table) {
-            $table->dateTime('startdate')->nullable();
-            $table->dateTime('enddate')->nullable();
-        });
-
-        Schema::table('subject_records', function (Blueprint $table) {
-            $table->dateTime('startdate')->nullable();
-            $table->dateTime('enddate')->nullable();
-        });
 
         Schema::create('e_training_user', function (Blueprint $table) {
             $table->id();
@@ -28,13 +19,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::table('stpm_records', function (Blueprint $table) {
-            $table->dropColumn(['startdate', 'enddate']);
-        });
-
-        Schema::table('subject_records', function (Blueprint $table) {
-            $table->dropColumn(['startdate', 'enddate']);
-        });
 
         Schema::dropIfExists('e_training_user');
     }
