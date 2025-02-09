@@ -15,14 +15,10 @@ class StpmRecord extends Model
         'job_id',
         'file_ref',
         'is_finish',
-        'e_training_id',
         'recorded_by',
         'progress',
         'start_date',
-        'end_date',
-        'status',
-        'created_at',
-        'updated_at',
+        'end_date'
     ];
 
     // Relationships
@@ -41,10 +37,6 @@ class StpmRecord extends Model
         return $this->belongsTo(Job::class);
     }
 
-    public function eTraining()
-    {
-        return $this->belongsTo(ETraining::class);
-    }
 
     public function recordedBy()
     {
@@ -53,6 +45,8 @@ class StpmRecord extends Model
 
     public function employees()
     {
-        return $this->belongsToMany(Employee::class, 'stpm_record_employee');
+        return $this->belongsToMany(Employee::class, 'stpm_employee_records')
+            ->withPivot('ojt_record_id', 'e_training_id')
+            ->withTimestamps();
     }
 }
