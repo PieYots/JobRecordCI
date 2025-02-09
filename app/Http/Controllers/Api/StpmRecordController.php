@@ -11,11 +11,23 @@ class StpmRecordController extends Controller
 {
     public function store(Request $request)
     {
-
+        // Convert boolean values correctly
         $request->merge([
             'is_team' => filter_var($request->input('is_team'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
             'is_finish' => filter_var($request->input('is_finish'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
         ]);
+
+        // Manually parse Form-Data employees array
+        $employees = [];
+        if ($request->has('employees')) {
+            foreach ($request->input('employees') as $key => $employee) {
+                $employees[] = [
+                    'employee_id' => $employee['employee_id'] ?? null,
+                    'ojt_record_id' => $employee['ojt_record_id'] ?? null,
+                    'e_training_id' => $employee['e_training_id'] ?? null,
+                ];
+            }
+        }
 
         // Validate incoming request
         $validatedData = $request->validate([
@@ -25,29 +37,27 @@ class StpmRecordController extends Controller
             'job_id' => 'nullable|exists:jobs,id',
             'file_ref' => 'nullable|file',
             'is_finish' => 'required|boolean',
-            'ojt_record_id' => 'nullable|exists:ojt_records,id',
-            'e_training_id' => 'nullable|exists:e_trainings,id',
             'record_by' => 'nullable|exists:employees,id',
-            'employees' => 'nullable|array', // List of employee IDs
-            'employees.*' => 'nullable|exists:employees,id', // Ensure all employees exist
-            'progress' => 'nullable|integer|between:0,100', // Add validation for progress
-            'start_date' => 'nullable|date', // Validate startdate
-            'end_date' => 'nullable|date|after_or_equal:startdate',
+            'progress' => 'nullable|integer|between:0,100',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'employees.*.employee_id' => 'nullable|exists:employees,id',
+            'employees.*.ojt_record_id' => 'nullable|exists:ojt_records,id',
+            'employees.*.e_training_id' => 'nullable|exists:e_trainings,id',
         ]);
 
-        // Handle file upload if present
+        // Handle file upload
         $filePath = null;
         if ($request->hasFile('file_ref') && $request->file('file_ref')->isValid()) {
             $filePath = $request->file('file_ref')->store('stpm_files', 'public');
         }
 
-        // Ensure boolean values are correctly converted
+        // Convert is_team and is_finish to boolean
         $isTeam = (bool) $validatedData['is_team'];
         $isFinish = (bool) $validatedData['is_finish'];
+        $progress = $isFinish ? 100 : ($validatedData['progress'] ?? 0);
 
-        $progress = $validatedData['is_finish'] ? 100 : ($validatedData['progress'] ?? 0);
-
-        // Create the STPM Record
+        // Create STPM Record
         $stpmRecord = StpmRecord::create([
             'team_id' => $validatedData['team_id'],
             'is_team' => $isTeam,
@@ -55,19 +65,21 @@ class StpmRecordController extends Controller
             'job_id' => $validatedData['job_id'],
             'file_ref' => $filePath ? 'storage/' . $filePath : null,
             'is_finish' => $isFinish,
-            'ojt_record_id' => $validatedData['ojt_record_id'],
-            'e_training_id' => $validatedData['e_training_id'],
             'recorded_by' => $validatedData['record_by'],
             'progress' => $progress,
-            'start_date' => $validatedData['start_date'], // Store startdate
-            'end_date' => $validatedData['end_date'], // Store enddate
-            'created_at' => now(), // Manually setting the created_at timestamp
+            'start_date' => $validatedData['start_date'],
+            'end_date' => $validatedData['end_date'],
         ]);
 
-
-
-        // Attach employees to the STPM Record (many-to-many relation)
-        $stpmRecord->employees()->attach($validatedData['employees']);
+        // Attach employees
+        if (!empty($employees)) {
+            foreach ($employees as $employeeData) {
+                $stpmRecord->employees()->attach($employeeData['employee_id'], [
+                    'ojt_record_id' => $employeeData['ojt_record_id'] ?? null,
+                    'e_training_id' => $employeeData['e_training_id'] ?? null,
+                ]);
+            }
+        }
 
         return response()->json([
             'message' => 'STPM Record created successfully!',
@@ -123,6 +135,40 @@ class StpmRecordController extends Controller
 
         return response()->json([
             'message' => 'STPM Record deleted successfully',
+        ], 200);
+    }
+
+    public function setOjtAndETraining(Request $request, $id)
+    {
+        $stpmRecord = StpmRecord::find($id);
+
+        if (!$stpmRecord) {
+            return response()->json(['message' => 'STPM Record not found'], 404);
+        }
+
+        // Validate request
+        $validatedData = $request->validate([
+            'employees' => 'required|array',
+            'employees.*.employee_id' => 'required|exists:employees,id',
+            'employees.*.ojt_record_id' => 'nullable|exists:ojt_records,id',
+            'employees.*.e_training_id' => 'nullable|exists:e_trainings,id',
+        ]);
+
+        // Sync employees with new OJT and E-Training records
+        $syncData = [];
+        foreach ($validatedData['employees'] as $employeeData) {
+            $syncData[$employeeData['employee_id']] = [
+                'ojt_record_id' => $employeeData['ojt_record_id'] ?? null,
+                'e_training_id' => $employeeData['e_training_id'] ?? null,
+            ];
+        }
+
+        // Sync many-to-many relationship
+        $stpmRecord->employees()->sync($syncData);
+
+        return response()->json([
+            'message' => 'OJT and E-Training records updated successfully!',
+            'data' => $stpmRecord->load('employees'),
         ], 200);
     }
 }

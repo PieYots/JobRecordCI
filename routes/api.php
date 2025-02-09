@@ -8,40 +8,76 @@
  * )
  */
 
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\RoleController;
-use App\Http\Controllers\Api\TeamController;
-use App\Http\Controllers\Api\MachineController;
-use App\Http\Controllers\Api\JobController;
-use App\Http\Controllers\Api\CourseTypeController;
-use App\Http\Controllers\Api\ETrainingController;
-use App\Http\Controllers\Api\StpmRecordController;
-use App\Http\Controllers\Api\SubjectRecordController;
-use App\Http\Controllers\Api\ApprovalController;
-use App\Http\Controllers\Api\OjtRecordController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\{
+    UserController,
+    RoleController,
+    TeamController,
+    MachineController,
+    JobController,
+    CourseTypeController,
+    ETrainingController,
+    StpmRecordController,
+    SubjectRecordController,
+    ApprovalController,
+    OjtRecordController,
+    CompetitiveRecordController,
+    WorkTypeController
+};
 
+// General Routes
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/roles', [RoleController::class, 'index']);
 Route::get('/teams', [TeamController::class, 'index']);
 Route::get('/machines', [MachineController::class, 'index']);
 Route::get('/jobs', [JobController::class, 'index']);
-Route::get('/e-trainings', [ETrainingController::class, 'index']);
-Route::get('/e-trainings/user/{userId}', [ETrainingController::class, 'getByUserId']);
 Route::get('/course-types', [CourseTypeController::class, 'index']);
-Route::get('/stpm-records', [StpmRecordController::class, 'index']);
-Route::get('/stpm-records/{id}', [StpmRecordController::class, 'show']);
-Route::post('/stpm-records', [StpmRecordController::class, 'store']);
-Route::delete('/stpm-records/{id}', [StpmRecordController::class, 'destroy']);
-Route::get('/subject-records', [SubjectRecordController::class, 'index']);
-Route::get('/subject-records/{id}', [SubjectRecordController::class, 'show']);
-Route::post('/subject-records', [SubjectRecordController::class, 'store']);
-Route::delete('/subject-records/{id}', [SubjectRecordController::class, 'destroy']);
-Route::post('/approve-stpm-record', [ApprovalController::class, 'approveStpmRecord']);
-Route::post('/approve-subject-record', [ApprovalController::class, 'approveSubjectRecord']);
+
+// E-Training Routes
+Route::prefix('e-trainings')->group(function () {
+    Route::get('/', [ETrainingController::class, 'index']);
+    Route::get('/user/{userId}', [ETrainingController::class, 'getByUserId']);
+});
+
+// STPM Record Routes
+Route::prefix('stpm-records')->group(function () {
+    Route::get('/', [StpmRecordController::class, 'index']);
+    Route::get('/{id}', [StpmRecordController::class, 'show']);
+    Route::post('/', [StpmRecordController::class, 'store']);
+    Route::delete('/{id}', [StpmRecordController::class, 'destroy']);
+    Route::post('/{id}/set-ojt-etraining', [StpmRecordController::class, 'setOjtAndETraining']);
+});
+
+// Subject Record Routes
+Route::prefix('subject-records')->group(function () {
+    Route::get('/', [SubjectRecordController::class, 'index']);
+    Route::get('/{id}', [SubjectRecordController::class, 'show']);
+    Route::post('/', [SubjectRecordController::class, 'store']);
+    Route::delete('/{id}', [SubjectRecordController::class, 'destroy']);
+});
+
+// Approval Routes
+Route::prefix('approvals')->group(function () {
+    Route::post('/stpm-record', [ApprovalController::class, 'approveStpmRecord']);
+    Route::post('/subject-record', [ApprovalController::class, 'approveSubjectRecord']);
+});
+
+// OJT Record Routes
 Route::prefix('ojt-records')->group(function () {
-    Route::get('/', [OjtRecordController::class, 'index']); // Get all OJT records
-    Route::get('{id}', [OjtRecordController::class, 'show']); // Get OJT record by ID
-    Route::post('/', [OjtRecordController::class, 'store']); // Create a new OJT record
-    Route::delete('{id}', [OjtRecordController::class, 'destroy']); // Delete OJT record
+    Route::get('/', [OjtRecordController::class, 'index']);
+    Route::get('/{id}', [OjtRecordController::class, 'show']);
+    Route::post('/', [OjtRecordController::class, 'store']);
+    Route::delete('/{id}', [OjtRecordController::class, 'destroy']);
+});
+
+Route::prefix('competitive-records')->group(function () {
+    Route::get('/', [CompetitiveRecordController::class, 'index']); // Get all records
+    Route::get('/{id}', [CompetitiveRecordController::class, 'show']); // Get by ID
+    Route::post('/', [CompetitiveRecordController::class, 'store']); // Add record
+    Route::delete('/{id}', [CompetitiveRecordController::class, 'destroy']); // Delete record
+});
+
+Route::prefix('work-types')->group(function () {
+    Route::get('/', [WorkTypeController::class, 'index']); // Get all work types
+    Route::get('/{id}', [WorkTypeController::class, 'show']); // Get work type by ID
 });
