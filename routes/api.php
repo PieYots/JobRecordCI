@@ -1,13 +1,5 @@
 <?php
 
-/**
- * @OA\Info(
- *     title="My API",
- *     version="1.0.0",
- *     description="This is the API documentation for my Laravel project"
- * )
- */
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\{
     UserController,
@@ -25,8 +17,11 @@ use App\Http\Controllers\Api\{
     WorkTypeController
 };
 
-// General Routes
-Route::get('/users', [UserController::class, 'index']);
+Route::prefix('users')->group(function () {
+    Route::get('/', [UserController::class, 'index']); // Get all users
+    Route::put('/update-role', [UserController::class, 'updateRole']); // Update user role
+});
+
 Route::get('/roles', [RoleController::class, 'index']);
 Route::get('/teams', [TeamController::class, 'index']);
 Route::get('/machines', [MachineController::class, 'index']);
