@@ -14,6 +14,7 @@ class User extends Model
         'employee_id',
         'username',
         'role_id',
+        'team_id',
         'status'
     ];
 
@@ -36,5 +37,10 @@ class User extends Model
     public function eTrainings(): BelongsToMany
     {
         return $this->belongsToMany(ETraining::class, 'e_training_user', 'user_id', 'e_training_id');
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
     }
 }

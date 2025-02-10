@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('username'); // Username column
             $table->foreignId('role_id')->nullable()->constrained('roles')->onDelete('SET NULL'); // Role reference column
             $table->enum('status', ['active', 'inactive', 'suspended']); // Enum for status
+            $table->foreignId('team_id')->nullable()->constrained('teams')->onDelete('SET NULL');
         });
     }
 

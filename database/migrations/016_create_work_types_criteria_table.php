@@ -18,6 +18,6 @@ return new class extends Migration {
 
     public function down()
     {
-        Schema::dropIfExists('work_type_criteria');
+        Schema::dropIfExists('work_type_criterias');
     }
 };
