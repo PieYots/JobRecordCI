@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @OA\Info(
+ *     title="My API",
+ *     version="1.0.0",
+ *     description="This is the API documentation for my Laravel project"
+ * )
+ */
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\{
     UserController,
@@ -14,16 +22,11 @@ use App\Http\Controllers\Api\{
     ApprovalController,
     OjtRecordController,
     CompetitiveRecordController,
-    WorkTypeController,
-    OPLController,
-    ImprovementController
+    WorkTypeController
 };
 
-Route::prefix('users')->group(function () {
-    Route::get('/', [UserController::class, 'index']); // Get all users
-    Route::put('/update-role', [UserController::class, 'updateRole']); // Update user role
-});
-
+// General Routes
+Route::get('/users', [UserController::class, 'index']);
 Route::get('/roles', [RoleController::class, 'index']);
 Route::get('/teams', [TeamController::class, 'index']);
 Route::get('/machines', [MachineController::class, 'index']);
@@ -77,26 +80,4 @@ Route::prefix('competitive-records')->group(function () {
 Route::prefix('work-types')->group(function () {
     Route::get('/', [WorkTypeController::class, 'index']); // Get all work types
     Route::get('/{id}', [WorkTypeController::class, 'show']); // Get work type by ID
-});
-
-Route::prefix('opls')->group(function () {
-    Route::get('/', [OPLController::class, 'index']); // Get all OPLs
-    Route::get('/{id}', [OPLController::class, 'show']); // Get OPL by ID
-    Route::post('/', [OPLController::class, 'store']); // Create OPL
-    Route::delete('/{id}', [OPLController::class, 'destroy']); // Delete OPL
-});
-
-Route::prefix('improvements')->group(function () {
-    Route::get('/', [ImprovementController::class, 'index']); // Get all improvements
-    Route::get('/{id}', [ImprovementController::class, 'show']); // Get improvement by ID
-    Route::post('/', [ImprovementController::class, 'store']); // Create improvement
-    Route::delete('/{id}', [ImprovementController::class, 'destroy']); // Delete improvement
-});
-
-// Routes for Improvements
-Route::prefix('improvements')->group(function () {
-    Route::get('/', [ImprovementController::class, 'index']); // Get all improvements
-    Route::get('/{id}', [ImprovementController::class, 'show']); // Get improvement by ID
-    Route::post('/', [ImprovementController::class, 'store']); // Create a new improvement
-    Route::delete('/{id}', [ImprovementController::class, 'destroy']); // Delete an improvement
 });
