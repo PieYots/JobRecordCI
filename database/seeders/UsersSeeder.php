@@ -15,6 +15,7 @@ class UsersSeeder extends Seeder
                 'employee_id' => 1, // John Doe
                 'username' => 'john.doe',
                 'role_id' => 1, // Admin role
+                'team_id' => 1,
                 'status' => 'active',
             ],
             [
@@ -22,6 +23,7 @@ class UsersSeeder extends Seeder
                 'employee_id' => 2, // Jane Smith
                 'username' => 'jane.smith',
                 'role_id' => 2, // User role
+                'team_id' => 2,
                 'status' => 'inactive',
             ],
         ]);
