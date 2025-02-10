@@ -14,6 +14,7 @@ class OjtRecord extends Model
     protected $fillable = [
         'employee_id',
         'type',
+        'type_of_instruction',
         'topic',
         'start_date',
         'end_date',
