@@ -11,8 +11,8 @@ class OPLController extends Controller
 {
     public function index()
     {
-        // Get all OPL records and load the teach_employees relationship
-        return response()->json(OPL::with('teachEmployees')->get(), 200);
+        // Get all OPL records and load the taughtEmployees relationship
+        return response()->json(OPL::with('taughtEmployees')->get(), 200);
     }
 
     public function store(Request $request)
@@ -28,6 +28,8 @@ class OPLController extends Controller
             'teach_employees' => 'nullable|array',
             'teach_employees.*' => 'exists:employees,id',
             'e_training_id' => 'nullable|exists:e_trainings,id',
+            'reference_stpm_id' => 'nullable|exists:stpm_records,id', // Add validation for reference_stpm_id
+            'reference_course_id' => 'nullable|exists:subject_records,id', // Add validation for reference_course_id
         ]);
 
         // Handle file upload if present
@@ -45,25 +47,26 @@ class OPLController extends Controller
             'file_ref' => $filePath,
             'result' => $request->result,
             'e_training_id' => $request->e_training_id,
+            'reference_stpm_id' => $request->reference_stpm_id, // Add reference_stpm_id
+            'reference_course_id' => $request->reference_course_id, // Add reference_course_id
         ]);
 
         // Attach teach_employees to the OPL (many-to-many relationship via the pivot table)
         if ($request->has('teach_employees') && count($request->teach_employees) > 0) {
-            $opl->teachEmployees()->attach($request->teach_employees);
+            $opl->taughtEmployees()->attach($request->teach_employees);
         }
 
         // Return response with the created OPL and associated teach_employees
         return response()->json([
             'message' => 'OPL created successfully',
-            'data' => $opl->load('teachEmployees') // Eager load teachEmployees relationship
+            'data' => $opl->load('taughtEmployees') // Eager load taughtEmployees relationship
         ], 201);
     }
-
 
     public function show($id)
     {
         // Find and return the OPL with the associated teach_employees
-        $opl = OPL::with('teachEmployees')->findOrFail($id);
+        $opl = OPL::with('taughtEmployees')->findOrFail($id);
         return response()->json($opl, 200);
     }
 

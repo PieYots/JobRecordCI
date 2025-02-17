@@ -17,10 +17,15 @@ return new class extends Migration
             $table->string('file_ref')->nullable();
             $table->longText('result')->nullable();
             $table->unsignedBigInteger('e_training_id')->nullable();
+            $table->unsignedBigInteger('reference_stpm_id')->nullable();
+            $table->unsignedBigInteger('reference_course_id')->nullable();
+            $table->enum('status', ['waiting', 'pass', 'fail'])->default('waiting');
             $table->timestamps();
 
             $table->foreign('e_training_id')->references('id')->on('e_trainings')->onDelete('set null');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');
+            $table->foreign('reference_stpm_id')->references('id')->on('stpm_records')->onDelete('set null');
+            $table->foreign('reference_course_id')->references('id')->on('subject_records')->onDelete('set null');
         });
     }
 
