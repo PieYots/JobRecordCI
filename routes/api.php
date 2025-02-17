@@ -60,6 +60,9 @@ Route::prefix('subject-records')->group(function () {
 Route::prefix('approvals')->group(function () {
     Route::post('/stpm-record', [ApprovalController::class, 'approveStpmRecord']);
     Route::post('/subject-record', [ApprovalController::class, 'approveSubjectRecord']);
+    Route::post('/opl', [ApprovalController::class, 'approveOpl']);
+    Route::post('/improvement', [ApprovalController::class, 'approveImprovement']);
+    Route::post('/competitive-record', [ApprovalController::class, 'approveCompetitiveRecord']);
 });
 
 // OJT Record Routes

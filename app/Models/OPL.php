@@ -6,26 +6,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-class CompetitiveRecord extends Model
+class OPL extends Model
 {
     use HasFactory;
 
-    protected $table = 'competitive_records';
+    protected $table = 'opls';
 
     protected $fillable = [
         'type',
-        'topic',
         'employee_id',
-        'work_type',
-        'work_type_criteria',
+        'topic',
+        'description',
         'file_ref',
         'result',
+        'e_training_id',
         'reference_stpm_id',
         'reference_course_id',
-        'reference_opls_id',
-        'reference_improvement_id',
         'status',
-        'competitive_name',
     ];
 
     protected $attributes = [
@@ -33,11 +30,19 @@ class CompetitiveRecord extends Model
     ];
 
     /**
-     * Relationship with the employee who created the record.
+     * Relationship with the employee who created the OPL.
      */
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
+    /**
+     * Relationship with ETraining.
+     */
+    public function eTraining()
+    {
+        return $this->belongsTo(ETraining::class, 'e_training_id');
     }
 
     /**
@@ -57,19 +62,11 @@ class CompetitiveRecord extends Model
     }
 
     /**
-     * Relationship with OPL records.
+     * Many-to-Many relationship with employees (who are taught via OPL).
      */
-    public function oplRecord()
+    public function taughtEmployees()
     {
-        return $this->belongsTo(OPL::class, 'reference_opls_id');
-    }
-
-    /**
-     * Relationship with Improvement records.
-     */
-    public function improvementRecord()
-    {
-        return $this->belongsTo(Improvement::class, 'reference_improvement_id');
+        return $this->belongsToMany(Employee::class, 'opl_employee', 'opl_id', 'employee_id')->withTimestamps();
     }
 
     /**
@@ -84,7 +81,7 @@ class CompetitiveRecord extends Model
     }
 
     /**
-     * Scope to filter records by status.
+     * Scope to filter OPLs by status.
      */
     public function scopeStatus($query, $status)
     {
@@ -92,7 +89,7 @@ class CompetitiveRecord extends Model
     }
 
     /**
-     * Scope to filter records by type.
+     * Scope to filter OPLs by type.
      */
     public function scopeType($query, $type)
     {
@@ -100,18 +97,10 @@ class CompetitiveRecord extends Model
     }
 
     /**
-     * Scope to filter records by employee.
+     * Scope to filter OPLs by employee.
      */
     public function scopeEmployee($query, $employeeId)
     {
         return $query->where('employee_id', $employeeId);
-    }
-
-    /**
-     * Scope to filter records by work type.
-     */
-    public function scopeWorkType($query, $workType)
-    {
-        return $query->where('work_type', $workType);
     }
 }
