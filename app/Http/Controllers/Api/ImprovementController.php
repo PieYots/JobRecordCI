@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Improvement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ImprovementController extends Controller
 {
@@ -31,7 +32,10 @@ class ImprovementController extends Controller
             'department_effect' => 'nullable|in:HR,Engineering,Marketing,Sales,Customer Support',  // Validate enum for department_effect
             'rating' => 'nullable|integer|between:1,5',
             'additional_learning' => 'nullable|string',
+            'reference_stpm_id' => 'nullable|exists:stpm_records,id',
+            'reference_course_id' => 'nullable|exists:subject_records,id',
             'e_training_id' => 'nullable|exists:e_trainings,id',
+            'status' => 'nullable|in:waiting,pass,fail',
         ]);
 
         // Handle file upload if present
@@ -57,13 +61,16 @@ class ImprovementController extends Controller
             'rating' => $request->rating,
             'additional_learning' => $request->additional_learning,
             'e_training_id' => $request->e_training_id,
+            'reference_stpm_id' => $request->reference_stpm_id,
+            'reference_course_id' => $request->reference_course_id,
+            'status' => $request->status ?? 'waiting',
         ]);
 
         // Return response with the created Improvement
         return response()->json([
             'message' => 'Improvement created successfully',
             'data' => $improvement,
-        ], 201);
+        ], 200);
     }
 
     public function show($id)
@@ -73,7 +80,17 @@ class ImprovementController extends Controller
 
     public function destroy($id)
     {
-        Improvement::destroy($id);
+        // Find the improvement by ID or fail
+        $improvement = Improvement::findOrFail($id);
+
+        // Delete the associated file if it exists
+        if ($improvement->file_ref && Storage::disk('public')->exists($improvement->file_ref)) {
+            Storage::disk('public')->delete($improvement->file_ref);
+        }
+
+        // Delete the improvement record
+        $improvement->delete();
+
         return response()->json(['message' => 'Improvement deleted successfully'], 200);
     }
 }
