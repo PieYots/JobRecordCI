@@ -22,7 +22,9 @@ use App\Http\Controllers\Api\{
     ApprovalController,
     OjtRecordController,
     CompetitiveRecordController,
-    WorkTypeController
+    WorkTypeController,
+    OPLController,
+    ImprovementController
 };
 
 // General Routes
