@@ -22,9 +22,7 @@ use App\Http\Controllers\Api\{
     ApprovalController,
     OjtRecordController,
     CompetitiveRecordController,
-    WorkTypeController,
-    OPLController,
-    ImprovementController
+    WorkTypeController
 };
 
 // General Routes
@@ -85,26 +83,4 @@ Route::prefix('competitive-records')->group(function () {
 Route::prefix('work-types')->group(function () {
     Route::get('/', [WorkTypeController::class, 'index']); // Get all work types
     Route::get('/{id}', [WorkTypeController::class, 'show']); // Get work type by ID
-});
-
-Route::prefix('opls')->group(function () {
-    Route::get('/', [OPLController::class, 'index']); // Get all OPLs
-    Route::get('/{id}', [OPLController::class, 'show']); // Get OPL by ID
-    Route::post('/', [OPLController::class, 'store']); // Create OPL
-    Route::delete('/{id}', [OPLController::class, 'destroy']); // Delete OPL
-});
-
-Route::prefix('improvements')->group(function () {
-    Route::get('/', [ImprovementController::class, 'index']); // Get all improvements
-    Route::get('/{id}', [ImprovementController::class, 'show']); // Get improvement by ID
-    Route::post('/', [ImprovementController::class, 'store']); // Create improvement
-    Route::delete('/{id}', [ImprovementController::class, 'destroy']); // Delete improvement
-});
-
-// Routes for Improvements
-Route::prefix('improvements')->group(function () {
-    Route::get('/', [ImprovementController::class, 'index']); // Get all improvements
-    Route::get('/{id}', [ImprovementController::class, 'show']); // Get improvement by ID
-    Route::post('/', [ImprovementController::class, 'store']); // Create a new improvement
-    Route::delete('/{id}', [ImprovementController::class, 'destroy']); // Delete an improvement
 });
