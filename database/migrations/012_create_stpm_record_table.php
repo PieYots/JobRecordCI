@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('file_ref')->nullable();
             $table->boolean('is_finish');
             $table->integer('progress')->default(0);
-            $table->unsignedBigInteger('ojt_record_id')->nullable();
-            $table->unsignedBigInteger('e_training_id')->nullable();
             $table->unsignedBigInteger('recorded_by')->nullable();
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
@@ -31,9 +29,7 @@ return new class extends Migration
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('SET NULL');
             $table->foreign('machine_id')->references('id')->on('machines')->onDelete('SET NULL');
             $table->foreign('job_id')->references('id')->on('jobs')->onDelete('SET NULL');
-            $table->foreign('e_training_id')->references('id')->on('e_trainings')->onDelete('SET NULL');
             $table->foreign('recorded_by')->references('id')->on('employees')->onDelete('SET NULL');
-            $table->foreign('ojt_record_id')->references('id')->on('ojt_records')->onDelete('SET NULL');
         });
     }
 

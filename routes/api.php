@@ -24,11 +24,26 @@ use App\Http\Controllers\Api\{
     CompetitiveRecordController,
     WorkTypeController,
     OPLController,
-    ImprovementController
+    ImprovementController,
+    EmployeeController,
+    ScoreCriteriaController
 };
 
 // General Routes
-Route::get('/users', [UserController::class, 'index']);
+Route::prefix('users')->group(
+    function () {
+        Route::get('/', [UserController::class, 'index']);
+        Route::put('/change-role', [UserController::class, 'changeRole']);
+    }
+);
+
+Route::prefix('employees')->group(
+    function () {
+        Route::get('/', [EmployeeController::class, 'index']);
+        Route::put('/update-score', [ScoreCriteriaController::class, 'updateScore']);
+    }
+);
+
 Route::get('/roles', [RoleController::class, 'index']);
 Route::get('/teams', [TeamController::class, 'index']);
 Route::get('/machines', [MachineController::class, 'index']);
@@ -80,6 +95,7 @@ Route::prefix('competitive-records')->group(function () {
     Route::get('/{id}', [CompetitiveRecordController::class, 'show']); // Get by ID
     Route::post('/', [CompetitiveRecordController::class, 'store']); // Add record
     Route::delete('/{id}', [CompetitiveRecordController::class, 'destroy']); // Delete record
+    Route::put('progress', [CompetitiveRecordController::class, 'updateProgress']);
 });
 
 Route::prefix('work-types')->group(function () {
