@@ -19,7 +19,7 @@ class SubjectRecordController extends Controller
             'process' => 'nullable|string',
             'result' => 'nullable|string',
             'file_ref' => 'nullable|file',
-            'rating' => 'nullable|integer|between:1,5', // Rating as integer
+            'rating' => 'nullable|integer|between:1,4', // Rating as integer
             'additional_learning' => 'nullable|string',
             'ojt_record_id' => 'nullable|exists:ojt_records,id',
             'e_training_id' => 'nullable|exists:e_trainings,id',
