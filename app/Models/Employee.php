@@ -12,7 +12,8 @@ class Employee extends Model
         'employee_name',
         'email',
         'department',
-        'team_id'
+        'team_id',
+        'score'
     ];
 
     // Relationships

@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             JobSeeder::class,
             ETrainingSeeder::class,
             CourseTypeSeeder::class,
-            WorkTypeSeeder::class
+            WorkTypeSeeder::class,
+            ScoreCriteriaSeeder::class
         ]);
     }
 }

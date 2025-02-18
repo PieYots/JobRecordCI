@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('reference_improvement_id')->nullable();
             $table->enum('status', ['waiting', 'pass', 'fail', 'ongoing', 'eliminated', 'qualify'])->default('waiting');
             $table->string('competitive_name')->nullable(); // File reference
+            $table->double('score')->default(0);
             $table->timestamps();
 
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');

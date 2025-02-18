@@ -18,7 +18,8 @@ class StpmRecord extends Model
         'recorded_by',
         'progress',
         'start_date',
-        'end_date'
+        'end_date',
+        'status'
     ];
 
     // Relationships
