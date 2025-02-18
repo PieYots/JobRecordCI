@@ -52,6 +52,7 @@ class SubjectRecordController extends Controller
             'created_at' => now(),
         ]);
 
+
         return response()->json([
             'message' => 'Subject Record created successfully!',
             'data' => $subjectRecord

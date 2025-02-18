@@ -14,7 +14,7 @@ class CompetitiveRecordController extends Controller
     public function index()
     {
         // Fetch all competitive records with pagination
-        $records = CompetitiveRecord::paginate(10);
+        $records = CompetitiveRecord::all();
         return response()->json([
             'message' => 'Competitive records fetched successfully!',
             'data' => $records,
@@ -93,6 +93,35 @@ class CompetitiveRecordController extends Controller
             'data' => $record,
         ], 201);
     }
+
+    public function updateProgress(Request $request)
+    {
+        // Validate request data (including the necessary fields)
+        $validatedData = $request->validate([
+            'id' => 'required|exists:competitive_records,id', // The ID of the competitive record
+            'status' => 'required|in:ongoing,eliminated,qualify',
+            'next_competitive' => 'nullable|string', // For the next competitive record
+            'point' => 'nullable|numeric', // For the points
+        ]);
+
+        // Find the competitive record by ID
+        $record = CompetitiveRecord::findOrFail($validatedData['id']);
+
+        // Update the record with new data
+        $record->status = $validatedData['status'];
+        $record->competitive_name = $validatedData['next_competitive'];
+        // $record->point = $validatedData['point'] ?? $record->point; // Update point if provided
+
+        $record->save(); // Save changes
+
+        // Return a response with the updated record data
+        return response()->json([
+            'message' => 'Competitive record progress updated successfully!',
+            'data' => $record
+        ]);
+    }
+
+
 
     public function destroy($id)
     {

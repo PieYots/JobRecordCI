@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('department');
             $table->unsignedBigInteger('team_id')->nullable();
+            $table->double('score')->default(0);
             $table->timestamps();
 
             // Foreign key constraint
