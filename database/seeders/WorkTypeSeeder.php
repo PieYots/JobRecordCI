@@ -12,7 +12,7 @@ class WorkTypeSeeder extends Seeder
     {
         // Kaizen Work Types
         $kaizenTypes = [
-            ['name' => 'Kurakuri', 'has_criteria' => false],
+            ['name' => 'Karakuri', 'has_criteria' => false],
             ['name' => 'Other Kaizen', 'has_criteria' => true],
         ];
 

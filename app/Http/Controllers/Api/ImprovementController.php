@@ -26,10 +26,10 @@ class ImprovementController extends Controller
             'previous_working' => 'nullable|string',
             'new_working' => 'nullable|string',
             'file_ref' => 'nullable|file',
-            'target_improvement' => 'nullable|in:speed,accuracy,efficiency',  // Validate enum for target_improvement
+            'target_improvement' => 'nullable|in:AdvProcessControl,Automation,AI',  // Validate enum for target_improvement
             'result' => 'nullable|string',
             'ctl_reduction' => 'nullable|integer',
-            'department_effect' => 'nullable|in:HR,Engineering,Marketing,Sales,Customer Support',  // Validate enum for department_effect
+            'department_effect' => 'nullable|string',  // Validate enum for department_effect
             'rating' => 'nullable|integer|between:1,5',
             'additional_learning' => 'nullable|string',
             'reference_stpm_id' => 'nullable|exists:stpm_records,id',
