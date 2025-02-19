@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('work_type')->nullable(); // Kurakuri + other (Kaizen) or other (OE)
             $table->string('work_type_criteria')->nullable(); // Null if Kurakuri
             $table->string('file_ref')->nullable(); // File reference
-            $table->longText('result')->nullable();
+            $table->double('result')->nullable();
             $table->unsignedBigInteger('reference_stpm_id')->nullable();
             $table->unsignedBigInteger('reference_course_id')->nullable();
             $table->unsignedBigInteger('reference_opls_id')->nullable();

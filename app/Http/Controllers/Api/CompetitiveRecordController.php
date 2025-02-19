@@ -47,7 +47,7 @@ class CompetitiveRecordController extends Controller
             'work_type_id' => 'required|exists:work_types,id',
             'work_type_criteria_id' => 'nullable|exists:work_type_criterias,id',
             'file_ref' => 'nullable|file|mimes:pdf,doc,docx,mp4,mov,avi|max:20480', // 20MB max
-            'result' => 'nullable|string',
+            'result' => 'nullable|numeric',
             'reference_course_id' => 'nullable|exists:subject_records,id',
             'reference_opls_id' => 'nullable|exists:opls,id',
             'reference_improvement_id' => 'nullable|exists:improvements,id',
