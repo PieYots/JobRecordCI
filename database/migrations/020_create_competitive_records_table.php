@@ -12,8 +12,8 @@ return new class extends Migration {
             $table->enum('type', ['Kaizen', 'OE']);
             $table->string('topic')->nullable();
             $table->unsignedBigInteger('employee_id')->nullable();
-            $table->string('work_type')->nullable(); // Kurakuri + other (Kaizen) or other (OE)
-            $table->string('work_type_criteria')->nullable(); // Null if Kurakuri
+            $table->string('work_type')->nullable(); // Karakuri + other (Kaizen) or other (OE)
+            $table->string('work_type_criteria')->nullable(); // Null if Karakuri
             $table->string('file_ref')->nullable(); // File reference
             $table->double('result')->nullable();
             $table->unsignedBigInteger('reference_stpm_id')->nullable();

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText('previous_working')->nullable();
             $table->longText('new_working')->nullable();
             $table->string('file_ref')->nullable();
-            $table->string('target_improvement')->nullable();  // Mock enum for target improvement
+            $table->enum('target_improvement', ['AdvProcessControl', 'Automation', 'AI'])->nullable();  // Mock enum for target improvement
             $table->longText('result')->nullable();
             $table->integer('ctl_reduction')->nullable();
             $table->string('department_effect')->nullable();;  // Updated enum values for department_effect
