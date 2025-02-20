@@ -74,9 +74,6 @@ class ApprovalController extends Controller
 
 
 
-
-
-
     /**
      * Approve or reject a SubjectRecord.
      */
