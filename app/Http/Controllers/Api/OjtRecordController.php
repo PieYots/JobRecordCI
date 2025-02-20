@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ScoreHelper;
 use App\Http\Controllers\Controller;
 use App\Models\OjtRecord;
 use Illuminate\Http\Request;
@@ -80,6 +81,8 @@ class OjtRecordController extends Controller
             'learner_name' => $validatedData['learner_name'],
             'comment' => $validatedData['comment'],
         ]);
+
+        ScoreHelper::fillEmployeeByCriteria($validatedData['employee_id'], 7);
 
         return response()->json([
             'message' => 'OJT Record created successfully!',

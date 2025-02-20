@@ -26,7 +26,8 @@ use App\Http\Controllers\Api\{
     OPLController,
     ImprovementController,
     EmployeeController,
-    ScoreCriteriaController
+    ScoreCriteriaController,
+    RewardController
 };
 
 // General Routes
@@ -115,4 +116,11 @@ Route::prefix('improvements')->group(function () {
     Route::get('/{id}', [ImprovementController::class, 'show']); // Get improvement by ID
     Route::post('/', [ImprovementController::class, 'store']); // Create improvement
     Route::delete('/{id}', [ImprovementController::class, 'destroy']); // Delete improvement
+});
+
+Route::prefix('rewards')->group(function () {
+    Route::get('/', [RewardController::class, 'index']);           // Get all rewards
+    Route::get('/{id}', [RewardController::class, 'show']);        // Get reward by ID
+    Route::post('/', [RewardController::class, 'update']);      // Edit reward
+    Route::post('/redeem', [RewardController::class, 'redeem']);   // Redeem reward
 });

@@ -27,8 +27,20 @@ class ScoreCriteriaSeeder extends Seeder
                 'description' => 'Criteria 3: S-TPM Record Neither OJT nor E-Training present',
             ],
             [
+                'score' => 5,
+                'description' => 'Criteria 1: Course Record OJT and E-Training present',
+            ],
+            [
                 'score' => 4,
-                'description' => 'Criteria 4: Course Record',
+                'description' => 'Criteria 2: Course Record Either OJT or E-Training present',
+            ],
+            [
+                'score' => 3,
+                'description' => 'Criteria 3: Course Record Neither OJT nor E-Training present',
+            ],
+            [
+                'score' => 1,
+                'description' => 'Record On Job Training (OJT)',
             ],
         ]);
     }
