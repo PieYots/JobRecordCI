@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ScoreHelper;
 use App\Http\Controllers\Controller;
 use App\Models\CompetitiveRecord;
 use App\Models\WorkType;
@@ -112,12 +113,19 @@ class CompetitiveRecordController extends Controller
         $record->competitive_name = $validatedData['next_competitive'];
         // $record->point = $validatedData['point'] ?? $record->point; // Update point if provided
 
+        if ($record->status == 'qualify' || $record->status == 'eliminated') {
+            ScoreHelper::addEmployeeScore($record->employee_id, $validatedData['point']);
+            ScoreHelper::addCompetitiveScore($validatedData['id'], $validatedData['point']);
+        }
+
         $record->save(); // Save changes
+
+        $UpdateRecord = CompetitiveRecord::findOrFail($validatedData['id']);
 
         // Return a response with the updated record data
         return response()->json([
             'message' => 'Competitive record progress updated successfully!',
-            'data' => $record
+            'data' => $UpdateRecord
         ]);
     }
 
