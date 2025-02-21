@@ -27,8 +27,10 @@ use App\Http\Controllers\Api\{
     ImprovementController,
     EmployeeController,
     ScoreCriteriaController,
-    RewardController
+    RewardController,
+    SupportStrategyController
 };
+use App\Models\SupportStrategy;
 
 // General Routes
 Route::prefix('users')->group(
@@ -50,6 +52,7 @@ Route::get('/teams', [TeamController::class, 'index']);
 Route::get('/machines', [MachineController::class, 'index']);
 Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/course-types', [CourseTypeController::class, 'index']);
+Route::get('/support-strategy', [SupportStrategyController::class, 'index']);
 
 // E-Training Routes
 Route::prefix('e-trainings')->group(function () {
