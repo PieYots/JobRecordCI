@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('reference_opls_id')->nullable();
             $table->unsignedBigInteger('reference_improvement_id')->nullable();
             $table->enum('status', ['waiting', 'pass', 'fail', 'ongoing', 'eliminated', 'qualify'])->default('waiting');
+            $table->unsignedBigInteger('support_strategy_id')->nullable();
             $table->string('competitive_name')->nullable(); // File reference
             $table->double('score')->default(0);
             $table->timestamps();
@@ -30,6 +31,7 @@ return new class extends Migration {
             $table->foreign('reference_course_id')->references('id')->on('subject_records')->onDelete('set null');
             $table->foreign('reference_opls_id')->references('id')->on('opls')->onDelete('set null');
             $table->foreign('reference_improvement_id')->references('id')->on('improvements')->onDelete('set null');
+            $table->foreign('support_strategy_id')->references('id')->on('support_strategy')->onDelete('set null');
         });
     }
 

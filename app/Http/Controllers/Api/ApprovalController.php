@@ -107,6 +107,14 @@ class ApprovalController extends Controller
         $opl = OPL::findOrFail($validated['id']);
         $opl->update(['status' => $validated['status']]);
 
+        // 🔹 **Separate Logic Based on `type`**
+        if ($opl->type === 'paper') {
+            ScoreHelper::fillEmployeeByCriteria($opl->employee_id, 8);
+        } elseif ($opl->type === 'video') {
+            ScoreHelper::fillEmployeeByCriteria($opl->employee_id, 9);
+        }
+
+
         return response()->json(['message' => 'OPL status updated successfully', 'data' => $opl], 200);
     }
 
@@ -123,6 +131,13 @@ class ApprovalController extends Controller
         $improvement = Improvement::findOrFail($request->id);
         $improvement->update(['status' => $request->status]);
 
+        // 🔹 **Separate Logic Based on `type`**
+        if ($improvement->type === 'paper') {
+            ScoreHelper::fillEmployeeByCriteria($improvement->employee_id, 10);
+        } elseif ($improvement->type === 'video') {
+            ScoreHelper::fillEmployeeByCriteria($improvement->employee_id, 11);
+        }
+
         return response()->json([
             'message' => 'Improvement status updated successfully',
             'data' => $improvement
@@ -131,18 +146,42 @@ class ApprovalController extends Controller
 
     public function approveCompetitiveRecord(Request $request): JsonResponse
     {
-        $request->validate([
-            'id' => 'required|exists:competitive_records,id',
-            'status' => 'required|in:waiting,pass,fail,ongoing,eliminated,qualify',
-        ]);
+        try {
+            // Validate request data
+            $validatedData = $request->validate([
+                'id' => 'required|exists:competitive_records,id',
+                'support_strategy_id' => 'nullable|exists:support_strategy,id',
+                'status' => 'required|in:waiting,pass,fail',
+            ]);
 
-        $record = CompetitiveRecord::findOrFail($request->id);
-        $record->update(['status' => $request->status]);
+            // Find the competitive record
+            $record = CompetitiveRecord::findOrFail($validatedData['id']);
 
-        return response()->json([
-            'message' => 'Competitive Record status updated successfully',
-            'data' => $record
-        ], 200);
+            // Update status
+            $record->status = $validatedData['status'];
+
+            // Update support strategy if provided
+            if (isset($validatedData['support_strategy_id']) && $validatedData['status'] == 'pass') {
+                $record->support_strategy_id = $validatedData['support_strategy_id'];
+            }
+
+            // Save the changes
+            $record->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Competitive Record status updated successfully',
+                'data' => $record
+            ], 200);
+        } catch (\Exception $e) {
+            // Log the error
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update competitive record status',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function getLastTwoApprovedRecordsForEmployeeAndJob($employeeId, $jobId)

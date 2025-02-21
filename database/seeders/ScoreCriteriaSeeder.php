@@ -42,6 +42,22 @@ class ScoreCriteriaSeeder extends Seeder
                 'score' => 1,
                 'description' => 'Record On Job Training (OJT)',
             ],
+            [
+                'score' => 50,
+                'description' => 'Record OPL with Paper',
+            ],
+            [
+                'score' => 100,
+                'description' => 'Record OPL with Video',
+            ],
+            [
+                'score' => 100,
+                'description' => 'Record Improvement with Paper',
+            ],
+            [
+                'score' => 200,
+                'description' => 'Record Improvement with Video',
+            ],
         ]);
     }
 }

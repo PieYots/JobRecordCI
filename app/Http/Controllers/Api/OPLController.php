@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\OPL;
-use App\Models\Employee; // To validate employee existence
+use App\Helpers\ScoreHelper;
 use Illuminate\Http\Request;
 
 class OPLController extends Controller

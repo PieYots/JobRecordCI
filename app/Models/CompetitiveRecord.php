@@ -24,6 +24,7 @@ class CompetitiveRecord extends Model
         'reference_course_id',
         'reference_opls_id',
         'reference_improvement_id',
+        'support_strategy',
         'status',
         'competitive_name',
     ];
@@ -70,6 +71,14 @@ class CompetitiveRecord extends Model
     public function improvementRecord()
     {
         return $this->belongsTo(Improvement::class, 'reference_improvement_id');
+    }
+
+    /**
+     * Relationship with Support Strategy.
+     */
+    public function supportStrategy()
+    {
+        return $this->belongsTo(SupportStrategy::class, 'support_strategy_id');
     }
 
     /**

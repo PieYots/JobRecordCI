@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             CourseTypeSeeder::class,
             WorkTypeSeeder::class,
             ScoreCriteriaSeeder::class,
-            RewardSeeder::class
+            RewardSeeder::class,
+            SupportStrategySeeder::class
         ]);
     }
 }
