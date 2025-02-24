@@ -138,7 +138,7 @@ class StpmRecordController extends Controller
         ], 200);
     }
 
-    public function setOjtAndETraining(Request $request, $id)
+    public function setOjtRecord(Request $request, $id)
     {
         $stpmRecord = StpmRecord::find($id);
 
@@ -148,26 +148,22 @@ class StpmRecordController extends Controller
 
         // Validate request
         $validatedData = $request->validate([
-            'employees' => 'required|array',
-            'employees.*.employee_id' => 'required|exists:employees,id',
-            'employees.*.ojt_record_id' => 'nullable|exists:ojt_records,id',
-            'employees.*.e_training_id' => 'nullable|exists:e_trainings,id',
+            'employee_id' => 'required|exists:employees,id',
+            'ojt_record_id' => 'nullable|exists:ojt_records,id',
         ]);
 
-        // Sync employees with new OJT and E-Training records
-        $syncData = [];
-        foreach ($validatedData['employees'] as $employeeData) {
-            $syncData[$employeeData['employee_id']] = [
-                'ojt_record_id' => $employeeData['ojt_record_id'] ?? null,
-                'e_training_id' => $employeeData['e_training_id'] ?? null,
-            ];
-        }
+        // Sync employee with new OJT record
+        $syncData = [
+            $validatedData['employee_id'] => [
+                'ojt_record_id' => $validatedData['ojt_record_id'] ?? null,
+            ],
+        ];
 
-        // Sync many-to-many relationship
-        $stpmRecord->employees()->sync($syncData);
+        // Sync many-to-many relationship without detaching existing records
+        $stpmRecord->employees()->syncWithoutDetaching($syncData);
 
         return response()->json([
-            'message' => 'OJT and E-Training records updated successfully!',
+            'message' => 'OJT record updated successfully!',
             'data' => $stpmRecord->load('employees'),
         ], 200);
     }
