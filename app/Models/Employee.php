@@ -31,4 +31,9 @@ class Employee extends Model
     {
         return $this->belongsToMany(StpmRecord::class, 'stpm_record_employee');
     }
+
+    public function subjectRecords()
+    {
+        return $this->belongsToMany(SubjectRecord::class, 'subject_record');
+    }
 }

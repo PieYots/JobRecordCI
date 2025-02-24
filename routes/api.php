@@ -75,6 +75,7 @@ Route::prefix('subject-records')->group(function () {
     Route::get('/{id}', [SubjectRecordController::class, 'show']);
     Route::post('/', [SubjectRecordController::class, 'store']);
     Route::delete('/{id}', [SubjectRecordController::class, 'destroy']);
+    Route::post('/set-ojt-record', [SubjectRecordController::class, 'setOjtRecord']);
 });
 
 // Approval Routes

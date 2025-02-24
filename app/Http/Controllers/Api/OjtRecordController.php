@@ -46,7 +46,7 @@ class OjtRecordController extends Controller
         $validatedData = $request->validate([
             'employee_id' => 'required|exists:employees,id',
             'type' => 'required|in:learner,instructor',
-            'type_of_instruction' => 'nullable|in:Daily Job,Breakdown Job,New Process,New Machine,New Product,Other',
+            'type_of_instruction' => 'nullable|in:Daily Job,Breakdown Job,New PMP,Other',
             'topic' => 'nullable|string',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
