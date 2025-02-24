@@ -41,4 +41,10 @@ class SubjectRecord extends Model
     {
         return $this->belongsTo(CourseType::class, 'course_type_id');
     }
+
+    // In App\Models\SubjectRecord.php
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

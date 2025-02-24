@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('employee_id')->nullable()->constrained()->onDelete('SET NULL');
             $table->enum('type', ['learner', 'instructor']);
-            $table->enum('type_of_instruction', ['Daily Job', 'Breakdown Job', 'New Process', 'New Machine', 'New Product', 'Other'])->nullable();
+            $table->enum('type_of_instruction', ['Daily Job', 'Breakdown Job', 'New PMP', 'Other'])->nullable();
             $table->string('topic')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();

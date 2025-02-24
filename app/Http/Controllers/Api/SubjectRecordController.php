@@ -109,4 +109,29 @@ class SubjectRecordController extends Controller
             'message' => 'Subject Record deleted successfully',
         ], 200);
     }
+
+    public function setOjtRecord(Request $request)
+    {
+        // Validate request
+        $validatedData = $request->validate([
+            'subject_record_id' => 'required|exists:subject_records,id',
+            'ojt_record_id' => 'nullable|exists:ojt_records,id',
+        ]);
+
+        // Find Subject Record by ID
+        $subjectRecord = SubjectRecord::find($validatedData['subject_record_id']);
+
+        if (!$subjectRecord) {
+            return response()->json(['message' => 'Subject Record not found'], 404);
+        }
+
+        // Update OJT record for this Subject Record
+        $subjectRecord->ojt_record_id = $validatedData['ojt_record_id'] ?? null;
+        $subjectRecord->save();
+
+        return response()->json([
+            'message' => 'OJT record updated successfully!',
+            'data' => $subjectRecord,
+        ], 200);
+    }
 }
