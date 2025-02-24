@@ -138,19 +138,21 @@ class StpmRecordController extends Controller
         ], 200);
     }
 
-    public function setOjtRecord(Request $request, $id)
+    public function setOjtRecord(Request $request)
     {
-        $stpmRecord = StpmRecord::find($id);
+        // Validate request
+        $validatedData = $request->validate([
+            'stpm_record_id' => 'required|exists:stpm_records,id',
+            'employee_id' => 'required|exists:employees,id',
+            'ojt_record_id' => 'nullable|exists:ojt_records,id',
+        ]);
+
+        // Find STPM Record
+        $stpmRecord = StpmRecord::find($validatedData['stpm_record_id']);
 
         if (!$stpmRecord) {
             return response()->json(['message' => 'STPM Record not found'], 404);
         }
-
-        // Validate request
-        $validatedData = $request->validate([
-            'employee_id' => 'required|exists:employees,id',
-            'ojt_record_id' => 'nullable|exists:ojt_records,id',
-        ]);
 
         // Sync employee with new OJT record
         $syncData = [

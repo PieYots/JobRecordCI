@@ -66,7 +66,7 @@ Route::prefix('stpm-records')->group(function () {
     Route::get('/{id}', [StpmRecordController::class, 'show']);
     Route::post('/', [StpmRecordController::class, 'store']);
     Route::delete('/{id}', [StpmRecordController::class, 'destroy']);
-    Route::post('/{id}/set-ojt-etraining', [StpmRecordController::class, 'setOjtRecord']);
+    Route::post('/set-ojt-record', [StpmRecordController::class, 'setOjtRecord']);
 });
 
 // Subject Record Routes
