@@ -31,6 +31,7 @@ class Improvement extends Model
         'reference_stpm_id',
         'reference_course_id',
         'status',
+        'support_strategy',
     ];
 
     protected $attributes = [

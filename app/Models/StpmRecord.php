@@ -13,6 +13,7 @@ class StpmRecord extends Model
         'is_team',
         'machine_id',
         'job_id',
+        'other_job',
         'file_ref',
         'is_finish',
         'recorded_by',
