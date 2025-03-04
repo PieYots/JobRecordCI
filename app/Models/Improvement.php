@@ -64,6 +64,14 @@ class Improvement extends Model
         return $this->belongsTo(SubjectRecord::class, 'reference_course_id');
     }
 
+    /**
+     * Relationship with Support Strategy.
+     */
+    public function supportStrategy()
+    {
+        return $this->belongsTo(SupportStrategy::class, 'support_strategy_id');
+    }
+
     // Scopes
 
     // Scope to filter improvements by status

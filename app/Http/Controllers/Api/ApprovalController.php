@@ -123,30 +123,42 @@ class ApprovalController extends Controller
      */
     public function approveImprovement(Request $request)
     {
-        $request->validate([
-            'id' => 'required|exists:improvements,id',
-            'support_strategy_id' => 'nullable|exists:support_strategy,id',
-            'status' => 'required|in:waiting,pass,fail',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'id' => 'required|exists:improvements,id',
+                'support_strategy_id' => 'nullable|exists:support_strategy,id',
+                'status' => 'required|in:waiting,pass,fail',
+            ]);
 
-        $improvement = Improvement::findOrFail($request->id);
-        $improvement->update(['status' => $request->status]);
+            $improvement = Improvement::findOrFail($validatedData['id']);
+            $improvement->status = $validatedData['status'];
 
-        if (isset($validatedData['support_strategy_id']) && $validatedData['status'] == 'pass') {
-            $improvement->support_strategy_id = $validatedData['support_strategy_id'];
+            if (isset($validatedData['support_strategy_id']) && $validatedData['status'] == 'pass') {
+                $improvement->support_strategy_id = $validatedData['support_strategy_id'];
+            }
+
+            $improvement->save(); // 🔹 Ensure changes are saved to the database
+
+            // 🔹 **Separate Logic Based on `type`**
+            if ($improvement->type === 'paper') {
+                ScoreHelper::fillEmployeeByCriteria($improvement->employee_id, 10);
+            } elseif ($improvement->type === 'video') {
+                ScoreHelper::fillEmployeeByCriteria($improvement->employee_id, 11);
+            }
+
+            return response()->json([
+                'message' => 'Improvement status updated successfully',
+                'data' => $improvement
+            ], 200);
+        } catch (\Exception $e) {
+            // Log the error
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update competitive record status',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        // 🔹 **Separate Logic Based on `type`**
-        if ($improvement->type === 'paper') {
-            ScoreHelper::fillEmployeeByCriteria($improvement->employee_id, 10);
-        } elseif ($improvement->type === 'video') {
-            ScoreHelper::fillEmployeeByCriteria($improvement->employee_id, 11);
-        }
-
-        return response()->json([
-            'message' => 'Improvement status updated successfully',
-            'data' => $improvement
-        ], 200);
     }
 
     public function approveCompetitiveRecord(Request $request): JsonResponse
