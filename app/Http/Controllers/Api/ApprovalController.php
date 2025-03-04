@@ -125,11 +125,16 @@ class ApprovalController extends Controller
     {
         $request->validate([
             'id' => 'required|exists:improvements,id',
+            'support_strategy_id' => 'nullable|exists:support_strategy,id',
             'status' => 'required|in:waiting,pass,fail',
         ]);
 
         $improvement = Improvement::findOrFail($request->id);
         $improvement->update(['status' => $request->status]);
+
+        if (isset($validatedData['support_strategy_id']) && $validatedData['status'] == 'pass') {
+            $improvement->support_strategy_id = $validatedData['support_strategy_id'];
+        }
 
         // 🔹 **Separate Logic Based on `type`**
         if ($improvement->type === 'paper') {
