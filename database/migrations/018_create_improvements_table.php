@@ -28,12 +28,14 @@ return new class extends Migration
             $table->unsignedBigInteger('reference_stpm_id')->nullable();
             $table->unsignedBigInteger('reference_course_id')->nullable();
             $table->enum('status', ['waiting', 'pass', 'fail'])->default('waiting');
+            $table->unsignedBigInteger('support_strategy_id')->nullable();
             $table->timestamps();
 
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');
             $table->foreign('e_training_id')->references('id')->on('e_trainings')->onDelete('set null');
             $table->foreign('reference_stpm_id')->references('id')->on('stpm_records')->onDelete('set null');
             $table->foreign('reference_course_id')->references('id')->on('subject_records')->onDelete('set null');
+            $table->foreign('support_strategy_id')->references('id')->on('support_strategy')->onDelete('set null');
         });
     }
 

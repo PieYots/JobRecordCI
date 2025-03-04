@@ -34,6 +34,7 @@ class RewardController extends Controller
             'id' => 'required|exists:rewards,id',
             'reward_name' => 'nullable|string|max:255',
             'reward_image' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // 2MB max
+            'reward_detail' => 'nullable|string', // 2MB max
             'reward_point' => 'nullable|integer|min:0',
             'reward_left' => 'nullable|integer|min:0',
         ]);

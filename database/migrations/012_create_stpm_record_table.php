@@ -15,6 +15,7 @@ return new class extends Migration
             $table->boolean('is_team');
             $table->unsignedBigInteger('machine_id')->nullable();
             $table->unsignedBigInteger('job_id')->nullable();
+            $table->string('other_job')->nullable();
             $table->string('file_ref')->nullable();
             $table->boolean('is_finish');
             $table->integer('progress')->default(0);

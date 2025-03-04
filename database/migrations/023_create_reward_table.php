@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->string('reward_name')->nullable();
             $table->string('reward_image')->nullable();
+            $table->string('reward_detail')->nullable();
             $table->integer('reward_point');
             $table->integer('reward_left');
             $table->timestamps();
