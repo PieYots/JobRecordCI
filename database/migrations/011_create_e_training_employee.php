@@ -9,10 +9,10 @@ return new class extends Migration {
     public function up(): void
     {
 
-        Schema::create('e_training_user', function (Blueprint $table) {
+        Schema::create('e_training_employee', function (Blueprint $table) {
             $table->id();
             $table->foreignId('e_training_id')->nullable()->constrained('e_trainings')->onDelete('SET NULL');
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('SET NULL');
+            $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('SET NULL');
             $table->timestamps();
         });
     }
@@ -20,6 +20,6 @@ return new class extends Migration {
     public function down(): void
     {
 
-        Schema::dropIfExists('e_training_user');
+        Schema::dropIfExists('e_training_employee');
     }
 };

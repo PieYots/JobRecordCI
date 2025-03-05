@@ -108,9 +108,9 @@ class ApprovalController extends Controller
         $opl->update(['status' => $validated['status']]);
 
         // 🔹 **Separate Logic Based on `type`**
-        if ($opl->type === 'paper') {
+        if ($opl->type === 'paper' && $validated['status'] == 'pass') {
             ScoreHelper::fillEmployeeByCriteria($opl->employee_id, 8);
-        } elseif ($opl->type === 'video') {
+        } elseif ($opl->type === 'video' && $validated['status'] == 'pass') {
             ScoreHelper::fillEmployeeByCriteria($opl->employee_id, 9);
         }
 
@@ -140,9 +140,9 @@ class ApprovalController extends Controller
             $improvement->save(); // 🔹 Ensure changes are saved to the database
 
             // 🔹 **Separate Logic Based on `type`**
-            if ($improvement->type === 'paper') {
+            if ($improvement->type === 'paper'  && $validatedData['status'] == 'pass') {
                 ScoreHelper::fillEmployeeByCriteria($improvement->employee_id, 10);
-            } elseif ($improvement->type === 'video') {
+            } elseif ($improvement->type === 'video'  && $validatedData['status'] == 'pass') {
                 ScoreHelper::fillEmployeeByCriteria($improvement->employee_id, 11);
             }
 

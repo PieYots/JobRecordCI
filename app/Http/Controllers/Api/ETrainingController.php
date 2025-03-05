@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use App\Models\ETraining;
 use App\Models\User;
 
@@ -13,14 +14,14 @@ class ETrainingController extends Controller
         return response()->json(ETraining::all(), 200);
     }
 
-    public function getByUserId($userId)
+    public function getByEmployeeId($employeeId)
     {
-        $user = User::with('eTrainings')->find($userId);
+        $employee = Employee::with('eTrainings')->find($employeeId);
 
-        if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+        if (!$employee) {
+            return response()->json(['message' => 'E-Training not found'], 404);
         }
 
-        return response()->json($user->eTrainings, 200);
+        return response()->json($employee->eTrainings, 200);
     }
 }

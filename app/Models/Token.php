@@ -9,13 +9,10 @@ class Token extends Model
     protected $table = 'tokens'; // Define table name
 
     protected $fillable = [
-        'user_id', 
-        'access_token', 
-        'refresh_token', 
-        'access_created_at', 
-        'refresh_created_at', 
-        'access_expire_at', 
-        'refresh_expire_at'
+        'user_id',
+        'access_token',
+        'access_created_at',
+        'access_expire_at',
     ];
 
     // Define relationships
