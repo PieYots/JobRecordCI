@@ -38,13 +38,13 @@ Route::middleware('auth.token')->group(function () {
     // User Routes
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);
-        Route::put('/change-role', [UserController::class, 'changeRole']);
+        Route::post('/change-role', [UserController::class, 'changeRole']); // Changed from PUT
     });
 
     // Employee Routes
     Route::prefix('employees')->group(function () {
         Route::get('/', [EmployeeController::class, 'index']);
-        Route::put('/update-score', [ScoreCriteriaController::class, 'updateScore']);
+        Route::post('/update-score', [ScoreCriteriaController::class, 'updateScore']); // Changed from PUT
     });
 
     Route::get('/roles', [RoleController::class, 'index']);
@@ -65,7 +65,7 @@ Route::middleware('auth.token')->group(function () {
         Route::get('/', [StpmRecordController::class, 'index']);
         Route::get('/{id}', [StpmRecordController::class, 'show']);
         Route::post('/', [StpmRecordController::class, 'store']);
-        Route::delete('/{id}', [StpmRecordController::class, 'destroy']);
+        Route::post('/delete/{id}', [StpmRecordController::class, 'destroy']); // Changed from DELETE
         Route::post('/set-ojt-record', [StpmRecordController::class, 'setOjtRecord']);
     });
 
@@ -74,7 +74,7 @@ Route::middleware('auth.token')->group(function () {
         Route::get('/', [SubjectRecordController::class, 'index']);
         Route::get('/{id}', [SubjectRecordController::class, 'show']);
         Route::post('/', [SubjectRecordController::class, 'store']);
-        Route::delete('/{id}', [SubjectRecordController::class, 'destroy']);
+        Route::post('/delete/{id}', [SubjectRecordController::class, 'destroy']); // Changed from DELETE
         Route::post('/set-ojt-record', [SubjectRecordController::class, 'setOjtRecord']);
     });
 
@@ -92,15 +92,15 @@ Route::middleware('auth.token')->group(function () {
         Route::get('/', [OjtRecordController::class, 'index']);
         Route::get('/{id}', [OjtRecordController::class, 'show']);
         Route::post('/', [OjtRecordController::class, 'store']);
-        Route::delete('/{id}', [OjtRecordController::class, 'destroy']);
+        Route::post('/delete/{id}', [OjtRecordController::class, 'destroy']); // Changed from DELETE
     });
 
     Route::prefix('competitive-records')->group(function () {
         Route::get('/', [CompetitiveRecordController::class, 'index']);
         Route::get('/{id}', [CompetitiveRecordController::class, 'show']);
         Route::post('/', [CompetitiveRecordController::class, 'store']);
-        Route::delete('/{id}', [CompetitiveRecordController::class, 'destroy']);
-        Route::put('progress', [CompetitiveRecordController::class, 'updateProgress']);
+        Route::post('/delete/{id}', [CompetitiveRecordController::class, 'destroy']); // Changed from DELETE
+        Route::post('/progress', [CompetitiveRecordController::class, 'updateProgress']); // Changed from PUT
     });
 
     Route::prefix('work-types')->group(function () {
@@ -112,20 +112,20 @@ Route::middleware('auth.token')->group(function () {
         Route::get('/', [OPLController::class, 'index']);
         Route::get('/{id}', [OPLController::class, 'show']);
         Route::post('/', [OPLController::class, 'store']);
-        Route::delete('/{id}', [OPLController::class, 'destroy']);
+        Route::post('/delete/{id}', [OPLController::class, 'destroy']); // Changed from DELETE
     });
 
     Route::prefix('improvements')->group(function () {
         Route::get('/', [ImprovementController::class, 'index']);
         Route::get('/{id}', [ImprovementController::class, 'show']);
         Route::post('/', [ImprovementController::class, 'store']);
-        Route::delete('/{id}', [ImprovementController::class, 'destroy']);
+        Route::post('/delete/{id}', [ImprovementController::class, 'destroy']); // Changed from DELETE
     });
 
     Route::prefix('rewards')->group(function () {
         Route::get('/', [RewardController::class, 'index']);
         Route::get('/{id}', [RewardController::class, 'show']);
-        Route::post('/', [RewardController::class, 'update']);
+        Route::post('/', [RewardController::class, 'update']); // Assuming update is a "store" action
         Route::post('/redeem', [RewardController::class, 'redeem']);
     });
 });
