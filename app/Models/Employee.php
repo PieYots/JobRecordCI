@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Employee extends Model
 {
@@ -25,6 +26,11 @@ class Employee extends Model
     public function user()
     {
         return $this->hasOne(User::class);
+    }
+
+    public function eTrainings(): BelongsToMany
+    {
+        return $this->belongsToMany(ETraining::class, 'e_training_employee', 'employee_id', 'e_training_id');
     }
 
     public function stpmRecords()
