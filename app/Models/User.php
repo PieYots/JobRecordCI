@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class User extends Model
 {
@@ -34,13 +35,21 @@ class User extends Model
         return $this->hasMany(Token::class);
     }
 
-    public function eTrainings(): BelongsToMany
-    {
-        return $this->belongsToMany(ETraining::class, 'e_training_user', 'user_id', 'e_training_id');
-    }
-
     public function team()
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function generateToken()
+    {
+        $token = Str::random(60);
+
+        $this->tokens()->create([
+            'access_token' => hash('sha256', $token),
+            'access_created_at' => now(),
+            'access_expire_at' => now()->addHours(2),
+        ]);
+
+        return $token;
     }
 }

@@ -13,11 +13,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('access_token');
-            $table->string('refresh_token');
             $table->timestamp('access_created_at');
-            $table->timestamp('refresh_created_at');
             $table->timestamp('access_expire_at');
-            $table->timestamp('refresh_expire_at');
             $table->timestamps();
 
             // Foreign key constraint
